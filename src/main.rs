@@ -21,11 +21,19 @@ fn greet_people(query: Query<&Name, With<Person>>) {
     }
 }
 
+pub struct GreetPlugin;
+
+impl Plugin for GreetPlugin {
+    fn build(&self, app: &mut App) {
+        app.add_startup_system(add_people)
+            .add_system(hello_world)
+            .add_system(greet_people);
+    }
+}
+
 fn main() {
     App::new()
     .add_plugins(DefaultPlugins)
-    .add_startup_system(add_people)
-    .add_system(hello_world)
-    .add_system(greet_people)
+    .add_plugin(GreetPlugin)
     .run();
 }
